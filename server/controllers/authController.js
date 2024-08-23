@@ -54,7 +54,30 @@ const Register = asyncHandler(async (req, res) => {
   })
 
   const saveUser = await user.save()
-  return res.status(200).json(saveUser)
+  if(saveUser){
+    const accessToken = jwt.sign({ id: saveUser._id }, process.env.JWT_SECRET, {
+      expiresIn: "30d"
+    })
+  
+    //  set Jwt as an http only cookie
+    res.cookie("jwt", accessToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV !== "development",
+      sameSite: "strict",
+      maxAge: 30 * 24 * 60 * 60 * 1000 //30days
+  
+    })
+    return res.status(200).json({
+      id: saveUser._id,
+      name: saveUser.username,
+      email: saveUser.email,
+      isAdmin: saveUser.isAdmin
+    })
+  }
+  else{
+    res.status(400)
+    throw new Error("Invalid User Data!")
+  }
 })
 
 // Logout

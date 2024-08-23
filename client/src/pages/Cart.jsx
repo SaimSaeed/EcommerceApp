@@ -22,6 +22,7 @@ function Cart() {
         <Row>
             <Col md={8}>
                 <h1 style={{ marginBottom: "20px" }}>Shopping Cart</h1>
+                <Link to={"/"} className='btn btn-light'>Go Back</Link>
                 {cartItems.length === 0 ?
                     (<Message>
                         Your Cart is empty <Link to={"/"}>Go Back</Link>
