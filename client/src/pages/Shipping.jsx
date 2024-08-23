@@ -1,15 +1,22 @@
 import React, { useState } from 'react'
 import FormContainer from '../components/FormContainer'
-import { Form } from 'react-bootstrap'
-
+import { Button, Form } from 'react-bootstrap'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import { saveShippingAddress } from '../features/CartSlice'
 function Shipping() {
-    const [address, setAddress] = useState("")
-    const [city, setCity] = useState("")
-    const [postalCode, setPostalCode] = useState("")
-    const [country, setCountry] = useState("")
+    const cart = useSelector(state => state.cart)
+    const { shippingAddress } = cart
+    const [address, setAddress] = useState(shippingAddress?.address || "")
+    const [city, setCity] = useState(shippingAddress?.city || "")
+    const [postalCode, setPostalCode] = useState(shippingAddress?.postalCode || "")
+    const [country, setCountry] = useState(shippingAddress?.country || "")
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     const handleSubmit = () => {
-
+        dispatch(saveShippingAddress({ address, city, postalCode, country }))
+        navigate("/payment")
     }
 
     return (
@@ -40,7 +47,7 @@ function Shipping() {
                     <Form.Label>Postal Code</Form.Label>
                     <Form.Control
                         type='text'
-                        placeholder='Enter PostalCode'
+                        placeholder='Enter Postal Code'
                         value={postalCode}
                         onChange={e => setPostalCode(e.target.value)}
                     >
@@ -56,6 +63,7 @@ function Shipping() {
                     >
                     </Form.Control>
                 </Form.Group>
+                <Button type='Submit' variant='secondary' className='my-2'>Continue</Button>
             </Form>
         </FormContainer>
     )

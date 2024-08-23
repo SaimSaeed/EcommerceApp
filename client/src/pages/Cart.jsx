@@ -6,7 +6,7 @@ import Message from '../components/Message'
 import { FaTrash } from 'react-icons/fa'
 import { addToCart ,removeFromCart} from '../features/CartSlice'
 function Cart() {
-    const navigate = useNavigate()
+    // const navigate = useNavigate()
     const dispatch = useDispatch()
     const cart = useSelector(state => state.cart)
     const { cartItems } = cart;
@@ -15,6 +15,8 @@ function Cart() {
         dispatch(addToCart({...product,qty}))
     }
 
+    
+    
     const handleDeleteFromCart = (id)=>{
         dispatch(removeFromCart(id))
     }
