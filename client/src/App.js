@@ -13,6 +13,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Shipping from './pages/Shipping';
 import NotFound from './pages/NotFound';
+import PrivateRoute from './components/PrivateRoute';
 function App() {
   return (
     <>
@@ -22,13 +23,17 @@ function App() {
     <main className='py-3'>
 <Container>
   <Routes>
-    <Route path='/' element={<Home/>}/>
+    <Route index={true} path='/' element={<Home/>}/>
     <Route path='/product/:id' element={<SingleProduct/>}/>
     <Route path='/cart' element={<Cart/>}/>
     <Route path='/login' element={<Login/>}/>
     <Route path='/register' element={<Register/>}/>
-    <Route path='/shipping' element={<Shipping/>}/>
     <Route path='*' element={<NotFound/>}/>
+    <Route path='' element={<PrivateRoute/>}>
+    <Route path='/shipping' element={<Shipping/>}/>
+    </Route>
+
+
 
 
 

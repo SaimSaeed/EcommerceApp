@@ -6,7 +6,7 @@ import Message from '../components/Message'
 import { FaTrash } from 'react-icons/fa'
 import { addToCart ,removeFromCart} from '../features/CartSlice'
 function Cart() {
-    // const navigate = useNavigate()
+    const navigate = useNavigate()
     const dispatch = useDispatch()
     const cart = useSelector(state => state.cart)
     const { cartItems } = cart;
@@ -14,11 +14,13 @@ function Cart() {
     const addtoCartHandler = (product,qty)=>{
         dispatch(addToCart({...product,qty}))
     }
-
-    
     
     const handleDeleteFromCart = (id)=>{
         dispatch(removeFromCart(id))
+    }
+
+    const checkoutHandler = ()=>{
+   navigate("/login?redirect=/shipping")
     }
     return (
         <Row>
@@ -75,7 +77,7 @@ function Cart() {
                     ${cartItems.reduce((acc,item)=>acc += item.qty * item.price,0).toFixed(2)}
                 </ListGroup.Item>
                 <ListGroup.Item>
-                    <Button type='button' className='btn-block' disabled={cartItems.length === 0}>
+                    <Button type='button' className='btn-block' disabled={cartItems.length === 0} onClick={checkoutHandler}>
                    Proceed To Checkout
                     </Button>
                 </ListGroup.Item>
