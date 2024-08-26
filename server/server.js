@@ -5,6 +5,7 @@ import dotenv from "dotenv"
 import cookieParser from "cookie-parser"
 import productRoutes from "./routes/productRoutes.js"
 import authRoutes from "./routes/authRoutes.js"
+import orderRoutes from "./routes/orderRoutes.js"
 import { notFound,errorHandler } from "./middleware/errorMiddleware.js"
 dotenv.config()
 
@@ -23,6 +24,8 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use("/api/products",productRoutes)
 app.use("/api/user",authRoutes)
+app.use("/api/order",orderRoutes)
+
 app.use(notFound)
 app.use(errorHandler)
 

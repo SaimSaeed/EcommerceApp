@@ -14,6 +14,7 @@ import Register from './pages/Register';
 import Shipping from './pages/Shipping';
 import NotFound from './pages/NotFound';
 import PrivateRoute from './components/PrivateRoute';
+import Payment from './pages/Payment';
 function App() {
   return (
     <>
@@ -31,15 +32,9 @@ function App() {
     <Route path='*' element={<NotFound/>}/>
     <Route path='' element={<PrivateRoute/>}>
     <Route path='/shipping' element={<Shipping/>}/>
+    <Route path='/payment' element={<Payment/>}/>
+
     </Route>
-
-
-
-
-
-
-
-
 
   </Routes>
 </Container>
