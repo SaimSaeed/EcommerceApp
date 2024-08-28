@@ -17,9 +17,9 @@ const addOrderItems = asyncHandler(async (req, res) => {
         throw new Error("No Order Items!")
     } else {
         const order = new Order({
+            user: req.user._id,
             // mapping the order items because it is an array and add product id and remove the id of orderItems
             orderItems: orderItems.map(x => ({ ...x, product: x._id, _id: undefined })),
-            user: req.user._id,
             shippingAddress,
             paymentMethod,
             itemsPrice,
@@ -42,7 +42,14 @@ const getMyOrders = asyncHandler(async (req, res) => {
 
 // Get Orders By ID
 const getOrderById = asyncHandler(async (req, res) => {
-    res.send("Get Order by Id")
+    const order = await Order.findById(req.params.id).populate("user", "username email")
+
+    if (order) {
+        return res.status(200).json(order)
+    } else {
+        res.status(400)
+        throw new Error("Order Not Found!")
+    }
 
 })
 
