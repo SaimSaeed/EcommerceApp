@@ -2,7 +2,7 @@ import React ,{useEffect} from 'react'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import CheckoutSteps from '../components/CheckoutSteps'
-import { Col, Row } from 'react-bootstrap'
+import { Col, ListGroup, Row } from 'react-bootstrap'
 
 function PlaceOrder() {
     const navigate = useNavigate()
@@ -20,7 +20,18 @@ function PlaceOrder() {
     <CheckoutSteps step1 step2 step3 step4/>
     <Row>
         <Col md={8}>
-        Column
+        <ListGroup variant='flush'>
+        <ListGroup.Item>
+   <h2>Shipping</h2>
+   <p><strong>Address: </strong>
+    {cart.shippingAddress.address}, {cart.shippingAddress.city} {cart.shippingAddress.postalCode}, {cart.shippingAddress.country}
+   </p>
+</ListGroup.Item>
+<ListGroup.Item>
+    
+</ListGroup.Item>
+        </ListGroup>
+     
         </Col>
         <Col md={4}>
         Column
