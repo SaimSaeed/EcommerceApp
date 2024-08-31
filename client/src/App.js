@@ -16,6 +16,7 @@ import NotFound from './pages/NotFound';
 import PrivateRoute from './components/PrivateRoute';
 import Payment from './pages/Payment';
 import PlaceOrder from './pages/PlaceOrder';
+import OrderDetail from './pages/OrderDetail';
 function App() {
   return (
     <>
@@ -34,6 +35,7 @@ function App() {
     <Route path='/shipping' element={<Shipping/>}/>
     <Route path='/payment' element={<Payment/>}/>
     <Route path='/placeorder' element={<PlaceOrder/>}/>
+    <Route path='/order/:id' element={<OrderDetail/>}/>
     </Route>
     <Route path='*' element={<NotFound/>}/>
   </Routes>
