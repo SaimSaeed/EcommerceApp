@@ -25,6 +25,11 @@ app.use(cors(corsOptions));
 app.use("/api/products",productRoutes)
 app.use("/api/user",authRoutes)
 app.use("/api/order",orderRoutes)
+app.use("/api/config/stripe",(req,res)=>{
+    res.send({publishableKey:process.env.PUBLISHABLE_KEY})
+
+})
+
 
 app.use(notFound)
 app.use(errorHandler)
