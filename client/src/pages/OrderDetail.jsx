@@ -1,15 +1,50 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
-import { useGetOrderDetailsQuery } from '../features/orderApiSlice'
+import { useGetOrderDetailsQuery, usePayOrderMutation, useGetPayPalClientIdQuery } from '../features/orderApiSlice'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
-import { Col, ListGroup, Row,Image, Card } from 'react-bootstrap'
+// import {PayPalButtons,usePayPalScriptReducer} from "@paypal/react-paypal-js"
+import { Col, ListGroup, Row, Image, Card } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
+import { usePayPalScriptReducer } from '@paypal/react-paypal-js'
+import { useSelector } from 'react-redux'
+
+
 
 function OrderDetail() {
     const { id } = useParams()
     const { data: order, refetch, isLoading, error } = useGetOrderDetailsQuery(id)
-    console.log(order)
+    const [payOrder, { isLoading: loadingPay }] = usePayOrderMutation()
+    const [{isPending},paypalDispatch] = usePayPalScriptReducer()
+    const { data: paypal, isLoading: loadingPayPal, error: errorPayPal } = useGetPayPalClientIdQuery()
+    const {userInfo} = useSelector(state=>state.auth)
+  
+
+    useEffect(() => {
+      if(!errorPayPal && !loadingPayPal && paypal.clientId){
+        const loadPayPalScript = async ()=>{
+         paypalDispatch({
+            type:'resetOptions',
+            value:{
+                'clientId': paypal.clientId,
+                currency:"USD"
+            }
+         });
+         paypalDispatch({type:'setLoadingStatus',value:'pending'})
+        }
+        if(order && !order.isPaid){
+            if(!window.paypal){
+                loadPayPalScript()
+            }
+        }
+      }
+    }, [order,paypal,paypalDispatch,loadingPayPal,errorPayPal])
+    
+
+
+
+
+
     return (
         <div>{isLoading ? <Loader /> : error ? <Message variant={"danger"}>{error?.data?.message || error.error}</Message> :
             <>
@@ -64,43 +99,44 @@ function OrderDetail() {
                     <Col md={4}>
                         <Card>
                             <ListGroup variant='flush'>
-                           <ListGroup.Item>
-                            <h2>Order Summary</h2>
-                           </ListGroup.Item>
-                           <ListGroup.Item>
-                           <Row>
-                            <Col>
-                            Items
-                            </Col>
-                            <Col>
-                            ${order.itemsPrice}
-                            </Col>
-                           </Row>
-                           <Row>
-                            <Col>
-                            Shipping
-                            </Col>
-                            <Col>
-                            ${order.shippingPrice}
-                            </Col>
-                           </Row>
-                           <Row>
-                            <Col>
-                            Tax
-                            </Col>
-                            <Col>
-                            ${order.taxPrice}
-                            </Col>
-                           </Row>
-                           <Row>
-                            <Col>
-                            Total
-                            </Col>
-                            <Col>
-                            ${order.totalPrice}
-                            </Col>
-                           </Row>
-                           </ListGroup.Item>
+                                <ListGroup.Item>
+                                    <h2>Order Summary</h2>
+                                </ListGroup.Item>
+                                <ListGroup.Item>
+                                    <Row>
+                                        <Col>
+                                            Items
+                                        </Col>
+                                        <Col>
+                                            ${order.itemsPrice}
+                                        </Col>
+                                    </Row>
+                                    <Row>
+                                        <Col>
+                                            Shipping
+                                        </Col>
+                                        <Col>
+                                            ${order.shippingPrice}
+                                        </Col>
+                                    </Row>
+                                    <Row>
+                                        <Col>
+                                            Tax
+                                        </Col>
+                                        <Col>
+                                            ${order.taxPrice}
+                                        </Col>
+                                    </Row>
+                                    <Row>
+                                        <Col>
+                                            Total
+                                        </Col>
+                                        <Col>
+                                            ${order.totalPrice}
+                                        </Col>
+                                    </Row>
+                                </ListGroup.Item>
+
                             </ListGroup>
                         </Card>
                     </Col>

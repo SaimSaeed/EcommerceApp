@@ -1,6 +1,5 @@
 import asyncHandler from "../middleware/asyncHandler.js";
 import Order from "../model/Order.js"
-import { retrievePaymentIntent } from "../utils/StripeService.js";
 // Create Orders 
 const addOrderItems = asyncHandler(async (req, res) => {
     const {
@@ -54,36 +53,29 @@ const getOrderById = asyncHandler(async (req, res) => {
 
 })
 
-
 // Update Order to Paid
 const updateOrderToPaid = asyncHandler(async (req, res) => {
     const order = await Order.findById(req.params.id)
-    if(order){
-        const paymentIntent = await retrievePaymentIntent(req.body.paymentIntentId);
-        if(paymentIntent.status === "succeeded"){
-            order.isPaid = true;
-            order.paidAt =Date.now();
-            order.paymentResult={
-               id:paymentIntent.id,
-               status:paymentIntent.status,
-               update_time:paymentIntent.created,
-               email_address:paymentIntent.receipt_email
-            }
 
-            const updateOrder = await order.save()
-            res.status(200).json(updateOrder)
-        }else{
-            res.status(400)
-            throw new Error("Payment Not Successful!")
+    if (order) {
+
+        order.isPaid = true;
+        order.paidAt = Date.now();
+        order.paymentResult = {
+            id: req.body.id,
+            status: req.body.status,
+            update_time: req.body.update_time,
+            email_address: req.body.payer.email_address
         }
-       
-    }else{
+
+        const updateOrder = await order.save()
+        res.status(200).json(updateOrder)
+
+    } else {
         res.status(404)
         throw new Error("Order Not Found!")
     }
-
 })
-
 
 // Update Order to Delivered
 const updateOrderToDelivered = asyncHandler(async (req, res) => {

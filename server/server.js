@@ -25,14 +25,13 @@ app.use(cors(corsOptions));
 app.use("/api/products",productRoutes)
 app.use("/api/user",authRoutes)
 app.use("/api/order",orderRoutes)
-app.use("/api/config/stripe",(req,res)=>{
-    res.send({publishableKey:process.env.PUBLISHABLE_KEY})
+app.use("/api/config/paypal",(req,res)=>{
+    res.send({clientId:process.env.CLIENT_ID})
 
 })
-
-
 app.use(notFound)
 app.use(errorHandler)
+
 
 
 mongoose.connect(process.env.MONGO_URL)
@@ -42,7 +41,6 @@ mongoose.connect(process.env.MONGO_URL)
 .catch((err)=>{
     console.log(err)
 })
-
 
 const port = process.env.PORT || 8000
 
