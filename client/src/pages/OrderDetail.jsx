@@ -175,7 +175,7 @@ function OrderDetail() {
                                         {loadingPay && <Loader/>}
                                         {isPending ? <Loader/> :(
                                             <div>
-                                                <Button onClick={onApproveTest} style={{marginBottom:"10px"}}>Test Button</Button>
+                                                {/* <Button onClick={onApproveTest} style={{marginBottom:"10px"}}>Test Button</Button> */}
                                                 <div>
                                                 <PayPalButtons
                                                 createOrder={createOrder}
