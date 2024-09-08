@@ -49,6 +49,17 @@ function Header() {
             </NavDropdown>) :  (<Nav.Link href="#home"><FaUser /> Sign In</Nav.Link>)
               }
 
+{
+              
+            userInfo && userInfo.isAdmin &&  (<NavDropdown title="Admin"  id="basic-nav-dropdown">
+                
+              <NavDropdown.Item ><Link to={"/admin/orderlist"}>Orders</Link></NavDropdown.Item>
+              <NavDropdown.Item ><Link to={"/admin/productlist"}>Products</Link></NavDropdown.Item>
+              <NavDropdown.Item ><Link to={"/admin/userlist"}>Users</Link></NavDropdown.Item>
+
+            </NavDropdown>) 
+              }
+
              
             </Nav>
           </Navbar.Collapse>

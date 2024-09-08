@@ -18,6 +18,8 @@ import Payment from './pages/Payment';
 import PlaceOrder from './pages/PlaceOrder';
 import OrderDetail from './pages/OrderDetail';
 import Profile from './pages/Profile';
+import AdminRoute from './components/AdminRoute';
+import OrderList from './pages/admin/OrderList';
 function App() {
   return (
     <>
@@ -38,6 +40,9 @@ function App() {
     <Route path='/placeorder' element={<PlaceOrder/>}/>
     <Route path='/order/:id' element={<OrderDetail/>}/>
     <Route path='/profile' element={<Profile/>}/>
+    </Route>
+    <Route element={<AdminRoute/>}>
+    <Route path='/admin/orderlist' element={<OrderList/>}/>
     </Route>
     <Route path='*' element={<NotFound/>}/>
   </Routes>
