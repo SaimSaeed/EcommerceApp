@@ -31,7 +31,7 @@ const Login = asyncHandler(async (req, res) => {
 
   return res.status(200).json({
     id: user._id,
-    name: user.username,
+    username: user.username,
     email: user.email,
     isAdmin: user.isAdmin
   })
@@ -69,7 +69,7 @@ const Register = asyncHandler(async (req, res) => {
     })
     return res.status(200).json({
       id: saveUser._id,
-      name: saveUser.username,
+      username: saveUser.username,
       email: saveUser.email,
       isAdmin: saveUser.isAdmin
     })
@@ -94,7 +94,7 @@ const getUserProfile = asyncHandler(async (req, res) => {
   if (user) {
     res.status(200).json({
       id: user._id,
-      name: user.username,
+      username: user.username,
       email: user.email,
       isAdmin: user.isAdmin
     })

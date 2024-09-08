@@ -40,7 +40,7 @@ function Header() {
               </Nav.Link>
               {
               
-              userInfo ?   (<NavDropdown title={userInfo.name}  id="basic-nav-dropdown">
+              userInfo ?   (<NavDropdown title={userInfo.username}  id="basic-nav-dropdown">
                 
               <NavDropdown.Item ><Link to={"/profile"}>Profile</Link></NavDropdown.Item>
               <NavDropdown.Item onClick={logoutHandler}>
