@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
-import { useGetOrderDetailsQuery, usePayOrderMutation, useGetPayPalClientIdQuery } from '../features/orderApiSlice'
+import { useGetOrderDetailsQuery, usePayOrderMutation, useGetPayPalClientIdQuery, useDeliveredOrdersMutation } from '../features/orderApiSlice'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
 // import {PayPalButtons,usePayPalScriptReducer} from "@paypal/react-paypal-js"
@@ -18,6 +18,7 @@ function OrderDetail() {
     const [payOrder, { isLoading: loadingPay }] = usePayOrderMutation()
     const [{isPending},paypalDispatch] = usePayPalScriptReducer()
     const { data: paypal, isLoading: loadingPayPal, error: errorPayPal } = useGetPayPalClientIdQuery()
+    const [deliveredOrder,{isLoading: LoadingDeliver, error: errorDeliver}] = useDeliveredOrdersMutation()
     const {userInfo} = useSelector(state=>state.auth)
   
 
@@ -75,6 +76,16 @@ function OrderDetail() {
     toast.error(err?.data?.message || err.message)
    }
 
+
+   const deliveredOrderHandler = async ()=>{
+      try {
+        await deliveredOrder(id)
+        refetch()
+        toast.success("Order Marked as Delivered!")
+      } catch (error) {
+        toast.error(error?.data?.message || error.error)
+      }
+   }
 
 
 
@@ -191,6 +202,15 @@ function OrderDetail() {
                                     </ListGroup.Item>
                                 )
                                }
+                               {LoadingDeliver && <Loader/>}
+                               {userInfo && userInfo.isAdmin && order.isPaid && !order.isDelivered
+                               && (
+                                <ListGroup.Item>
+                                    <Button type='button' className='btn btn-block btn-dark' onClick={deliveredOrderHandler}>
+                                Mark As Delivered
+                                    </Button>
+                                </ListGroup.Item>
+                               )}
                             </ListGroup>
                         </Card>
                     </Col>
