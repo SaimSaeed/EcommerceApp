@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { addDecimals, updateCart } from "../utils/cartUtils";
+import { updateCart } from "../utils/cartUtils";
 const initialState = localStorage.getItem("Cart") ? JSON.parse(localStorage.getItem("Cart")) : { cartItems: [], shippingAddress: {}, paymentMethod: "PayPal" }
 
 

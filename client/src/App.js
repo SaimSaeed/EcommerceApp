@@ -20,6 +20,7 @@ import OrderDetail from './pages/OrderDetail';
 import Profile from './pages/Profile';
 import AdminRoute from './components/AdminRoute';
 import OrderList from './pages/admin/OrderList';
+import ProductList from './pages/admin/ProductList';
 function App() {
   return (
     <>
@@ -43,6 +44,7 @@ function App() {
     </Route>
     <Route element={<AdminRoute/>}>
     <Route path='/admin/orderlist' element={<OrderList/>}/>
+    <Route path='/admin/productlist' element={<ProductList/>}/>
     </Route>
     <Route path='*' element={<NotFound/>}/>
   </Routes>

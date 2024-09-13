@@ -18,7 +18,7 @@ function OrderDetail() {
     const [payOrder, { isLoading: loadingPay }] = usePayOrderMutation()
     const [{isPending},paypalDispatch] = usePayPalScriptReducer()
     const { data: paypal, isLoading: loadingPayPal, error: errorPayPal } = useGetPayPalClientIdQuery()
-    const [deliveredOrder,{isLoading: LoadingDeliver, error: errorDeliver}] = useDeliveredOrdersMutation()
+    const [deliveredOrder,{isLoading: LoadingDeliver}] = useDeliveredOrdersMutation()
     const {userInfo} = useSelector(state=>state.auth)
   
 
@@ -54,11 +54,11 @@ function OrderDetail() {
         }
     })
    }
-   async function  onApproveTest(){
-    await payOrder({id,details:{payer:{}}})
-    refetch()
-    toast.success("Payment SuccessFul!")
-   }
+//    async function  onApproveTest(){
+//     await payOrder({id,details:{payer:{}}})
+//     refetch()
+//     toast.success("Payment SuccessFul!")
+//    }
    function createOrder(data,actions){
     return actions.order.create({
         purchase_units:[
