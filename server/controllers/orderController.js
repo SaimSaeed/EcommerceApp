@@ -84,7 +84,8 @@ const updateOrderToDelivered = asyncHandler(async (req, res) => {
 
 // Get All Orders for Admin
 const getOrders = asyncHandler(async (req, res) => {
-    res.send("Get All Orders")
+    const orders = await Order.find({}).populate('user','id username')
+    res.status(200).json(orders)
 
 })
 
