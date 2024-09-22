@@ -20,5 +20,42 @@ const getSingleProduct = asyncHandler(async (req, res) => {
 })
 
 
+const createProduct = asyncHandler(async (req, res) => {
+    const product = new Product({
+        name: "Sample Name",
+        price: 0,
+        user: req.user._id,
+        image: "https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg",
+        brand: "Sample Brand",
+        category: "Sample Category",
+        countInStock: 0,
+        numReviews: 0,
+        description: "Sample Description",
+    })
+    const createdProduct = await product.save()
+    return res.status(201).json(createdProduct)
+})
 
-export {getProducts,getSingleProduct}
+const updateProduct = asyncHandler(async (req, res) => {
+    
+  const product = await Product.findById(req.params.id)
+  if(product){
+    product.name = req.body.name;
+    product.price = req.body.price;
+    product.description = req.body.description;
+    product.image = req.body.image;
+    product.brand = req.body.brand;
+    product.category = req.body.category;
+    product.countInStock = req.body.countInStock;
+
+    const updatedProduct = await product.save()
+    return res.status(200).json(updatedProduct)
+  }else{
+    res.status(404)
+    throw new Error("Product Not Found!")
+  }
+})
+
+
+
+export { getProducts, getSingleProduct, createProduct,updateProduct }

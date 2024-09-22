@@ -21,6 +21,7 @@ import Profile from './pages/Profile';
 import AdminRoute from './components/AdminRoute';
 import OrderList from './pages/admin/OrderList';
 import ProductList from './pages/admin/ProductList';
+import ProductEdit from "./pages/admin/ProductEdit"
 function App() {
   return (
     <>
@@ -45,6 +46,8 @@ function App() {
     <Route element={<AdminRoute/>}>
     <Route path='/admin/orderlist' element={<OrderList/>}/>
     <Route path='/admin/productlist' element={<ProductList/>}/>
+    <Route path='/admin/product/:id/edit' element={<ProductEdit/>}/>
+
     </Route>
     <Route path='*' element={<NotFound/>}/>
   </Routes>

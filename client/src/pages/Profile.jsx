@@ -144,8 +144,6 @@ function Profile() {
 </tbody>
 
 </Table>
-
-
 </>}
 
             </Col>
