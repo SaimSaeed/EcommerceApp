@@ -37,7 +37,7 @@ const productSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    image: {
+    imageSrc: {
         type: String,
         required: true
     },
@@ -59,7 +59,7 @@ const productSchema = new mongoose.Schema({
         required: true,
         default: 0
     },
-    numReviews: {
+    reviewNum: {
         type: Number,
         required: true,
         default: 0

@@ -10,7 +10,6 @@ import { Link } from 'react-router-dom'
 function ProductList() {
     const { data: products, isLoading, error, refetch } = useGetProductsQuery()
     const [createProduct, { isLoading: loadingCreateProduct }] = useCreateProductMutation()
-    const [updateProduct, { isLoading: LoadingUpdate }] = useUpdateProductMutation()
     const deleteHandler = (id) => {
 
     }
@@ -28,14 +27,7 @@ function ProductList() {
 
     }
 
-    const updateProductHandler = async () => {
-       try {
-        await updateProduct({products})
-        toast.success("Product Updated!")
-       } catch (error) {
-        toast.error(error?.data?.message || error.error)
-       }
-    }
+   
     return (
         <>
             <Row className='align-items-center'>
@@ -66,7 +58,7 @@ function ProductList() {
                             return <tr key={product._id}>
                                 <td>{product._id}</td>
                                 <td>{product.name}</td>
-                                <td>{product.price}</td>
+                                <td>${product.price}</td>
                                 <td>{product.category}</td>
                                 <td>{product.brand}</td>
                                 <td><Link to={`/admin/product/${product._id}/edit`} className='btn btn-dark btn-sm mx-1'><FaEdit/></Link>

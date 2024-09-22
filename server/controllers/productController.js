@@ -25,11 +25,11 @@ const createProduct = asyncHandler(async (req, res) => {
         name: "Sample Name",
         price: 0,
         user: req.user._id,
-        image: "https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg",
+        imageSrc: "https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg",
         brand: "Sample Brand",
         category: "Sample Category",
         countInStock: 0,
-        numReviews: 0,
+        reviewNum: 0,
         description: "Sample Description",
     })
     const createdProduct = await product.save()
@@ -43,7 +43,7 @@ const updateProduct = asyncHandler(async (req, res) => {
     product.name = req.body.name;
     product.price = req.body.price;
     product.description = req.body.description;
-    product.image = req.body.image;
+    product.imageSrc = req.body.imageSrc;
     product.brand = req.body.brand;
     product.category = req.body.category;
     product.countInStock = req.body.countInStock;
