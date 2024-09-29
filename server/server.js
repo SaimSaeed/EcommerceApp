@@ -1,3 +1,4 @@
+import path from "path"
 import express from "express"
 import cors from "cors"
 import mongoose from "mongoose"
@@ -6,12 +7,12 @@ import cookieParser from "cookie-parser"
 import productRoutes from "./routes/productRoutes.js"
 import authRoutes from "./routes/authRoutes.js"
 import orderRoutes from "./routes/orderRoutes.js"
+import uploadRoutes from "./routes/uploadRoutes.js"
 import { notFound,errorHandler } from "./middleware/errorMiddleware.js"
 dotenv.config()
 
 
 const app = express()
-
 app.use(express.json());
 app.use(express.urlencoded({extended:true}))
 app.use(cookieParser())
@@ -20,18 +21,18 @@ const corsOptions = {
     credentials: true,  // Allow credentials like cookies
     optionsSuccessStatus: 200,
 };
-
 app.use(cors(corsOptions));
 app.use("/api/products",productRoutes)
 app.use("/api/user",authRoutes)
 app.use("/api/order",orderRoutes)
+app.use("/api/upload",uploadRoutes)
 app.use("/api/config/paypal",(req,res)=>{
     res.send({clientId:process.env.CLIENT_ID})
-
 })
+const __dirname = path.resolve()  //setting directory to current directory
+app.use("/upload",express.static(path.join(__dirname,"/upload")))
 app.use(notFound)
 app.use(errorHandler)
-
 
 
 mongoose.connect(process.env.MONGO_URL)
@@ -42,7 +43,9 @@ mongoose.connect(process.env.MONGO_URL)
     console.log(err)
 })
 
+
 const port = process.env.PORT || 8000
+
 
 app.listen(port,()=>{
     console.log("Server is Running!",port)

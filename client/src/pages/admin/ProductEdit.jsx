@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
-import { useGetProductDetailsQuery, useUpdateProductMutation } from '../../features/ProductApiSlice'
+import { useGetProductDetailsQuery, useUpdateProductMutation, useUploadProductImageMutation } from '../../features/ProductApiSlice'
 import FormContainer from '../../components/FormContainer'
 import Loader from '../../components/Loader'
 import Message from '../../components/Message'
@@ -18,6 +18,7 @@ function ProductEdit() {
   const [countInStock, setCountInStock] = useState(0)
   const { data: product, isLoading, error, refetch } = useGetProductDetailsQuery(id)
   const [updateProduct, { isLoading: loadingUpdate }] = useUpdateProductMutation()
+  const [uploadImage, { isLoading: loadingUpload }] = useUploadProductImageMutation()
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -38,7 +39,7 @@ function ProductEdit() {
   const updateHandler = async (e) => {
     e.preventDefault()
     const updatedProduct = {
-      _id:id,
+      _id: id,
       name,
       description,
       category,
@@ -48,17 +49,30 @@ function ProductEdit() {
       countInStock
 
     }
-    
-    const result =    await updateProduct(updatedProduct)
-    if(result.error){
+
+    const result = await updateProduct(updatedProduct)
+    if (result.error) {
       toast.error(result.error)
 
-    }else{
+    } else {
       toast.success("Product Updated!")
       navigate("/admin/productlist")
     }
-    
-    
+
+
+  }
+
+
+  const uploadImageHandler = async (e) => {
+    const formData =new FormData()
+    formData.append('image',e.target.files[0])
+    try {
+     const res = await uploadImage(formData).unwrap()
+      toast.success(res.message)
+      setImageSrc(res.image)
+    } catch (error) {
+      toast.error(error?.data?.message || error.error)
+    }
   }
 
 
@@ -71,6 +85,24 @@ function ProductEdit() {
         {loadingUpdate && <Loader />}
         {isLoading ? <Loader /> : error ? <Message variant={"danger"}>{error?.data?.message || error.error}</Message> : (
           <Form onSubmit={updateHandler}>
+            <Form.Group>
+              <Form.Label>
+                Image
+              </Form.Label>
+              <Form.Control
+              type='text'
+              placeholder='Enter Image Url'
+              value={imageSrc}
+              onChange={(e)=>{setImageSrc(e.target.value)}}
+              >
+              </Form.Control>
+              <Form.Control
+              type='file'
+              onChange={uploadImageHandler}
+              >
+                  
+                </Form.Control>
+            </Form.Group>
             <Form.Group>
               <Form.Label>
                 Name
