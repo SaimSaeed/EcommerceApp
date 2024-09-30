@@ -9,10 +9,6 @@ function Product({item}) {
          <Card className='my-3 py-3 rounded'>
             <Link to={`/product/${item._id}`}>
             <Card.Img variant="top" src={item.imageSrc} />
-
-
-            
-
       <Card.Body>
         <Card.Title className='product-title'>{item.name}</Card.Title>
         <Card.Text>

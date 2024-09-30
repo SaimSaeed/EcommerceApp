@@ -26,7 +26,7 @@ function Header() {
 
       <Navbar bg='dark' variant='dark' expand="md" collapseOnSelect >
         <Container>
-          <Navbar.Brand href="#home">ProShop</Navbar.Brand>
+          <Navbar.Brand ><Link to={"/"} className='text-white'>ProShop</Link></Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto">

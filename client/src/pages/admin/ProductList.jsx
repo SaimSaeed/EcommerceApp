@@ -1,8 +1,8 @@
 import React from 'react'
-import { useGetProductsQuery, useCreateProductMutation, useUpdateProductMutation } from '../../features/ProductApiSlice'
+import { useGetProductsQuery, useCreateProductMutation, useDeleteProductMutation} from '../../features/ProductApiSlice'
 import { Button, Row, Col, Table } from 'react-bootstrap'
 import { toast } from "react-toastify"
-import { FaEdit, FaTrash } from 'react-icons/fa'
+import { FaEdit, FaTrash ,FaCheck} from 'react-icons/fa'
 import Loader from '../../components/Loader'
 import Message from '../../components/Message'
 import { Link } from 'react-router-dom'
@@ -10,8 +10,18 @@ import { Link } from 'react-router-dom'
 function ProductList() {
     const { data: products, isLoading, error, refetch } = useGetProductsQuery()
     const [createProduct, { isLoading: loadingCreateProduct }] = useCreateProductMutation()
-    const deleteHandler = (id) => {
+    const [deleteProduct, { isLoading: LoadingDelete }] = useDeleteProductMutation()
 
+    const deleteProductHandler = async (id) => {
+        if (window.confirm("Are you sure you want to delete product?")){
+        try {
+            await deleteProduct(id)
+            refetch()
+            toast.success("Product Deleted!")
+        } catch (error) {
+            toast.error(error?.data?.message || error.error)
+        }
+    }
     }
 
     const createProductHandler = async () => {
@@ -27,7 +37,7 @@ function ProductList() {
 
     }
 
-   
+
     return (
         <>
             <Row className='align-items-center'>
@@ -61,8 +71,8 @@ function ProductList() {
                                 <td>${product.price}</td>
                                 <td>{product.category}</td>
                                 <td>{product.brand}</td>
-                                <td><Link to={`/admin/product/${product._id}/edit`} className='btn btn-dark btn-sm mx-1'><FaEdit/></Link>
-                                    <Button className='btn-danger btn-sm text-dark' onClick={() => deleteHandler(product._id)}><FaTrash /></Button>
+                                <td><Link to={`/admin/product/${product._id}/edit`} className='btn btn-dark btn-sm mx-1'><FaEdit /></Link>
+                                    <Button className='btn-danger btn-sm text-dark' onClick={() => deleteProductHandler(product._id)}><FaTrash /></Button>
                                 </td>
 
                             </tr>

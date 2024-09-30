@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
-import { useGetProductDetailsQuery, useUpdateProductMutation, useUploadProductImageMutation } from '../../features/ProductApiSlice'
+import {  useGetProductDetailsQuery, useUpdateProductMutation, useUploadProductImageMutation } from '../../features/ProductApiSlice'
 import FormContainer from '../../components/FormContainer'
 import Loader from '../../components/Loader'
 import Message from '../../components/Message'
@@ -64,16 +64,19 @@ function ProductEdit() {
 
 
   const uploadImageHandler = async (e) => {
-    const formData =new FormData()
-    formData.append('image',e.target.files[0])
+    const formData = new FormData()
+    formData.append('image', e.target.files[0])
     try {
-     const res = await uploadImage(formData).unwrap()
+      const res = await uploadImage(formData).unwrap()
       toast.success(res.message)
       setImageSrc(res.image)
     } catch (error) {
       toast.error(error?.data?.message || error.error)
     }
   }
+
+
+  
 
 
   return (
@@ -90,18 +93,18 @@ function ProductEdit() {
                 Image
               </Form.Label>
               <Form.Control
-              type='text'
-              placeholder='Enter Image Url'
-              value={imageSrc}
-              onChange={(e)=>{setImageSrc(e.target.value)}}
+                type='text'
+                placeholder='Enter Image Url'
+                value={imageSrc}
+                onChange={(e) => { setImageSrc(e.target.value) }}
               >
               </Form.Control>
               <Form.Control
-              type='file'
-              onChange={uploadImageHandler}
+                type='file'
+                onChange={uploadImageHandler}
               >
-                  
-                </Form.Control>
+
+              </Form.Control>
             </Form.Group>
             <Form.Group>
               <Form.Label>
