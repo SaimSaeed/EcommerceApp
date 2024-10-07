@@ -6,6 +6,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useLogoutMutation } from '../features/userApiSlice'
 import { logout } from '../features/authSlice'
 import {toast} from "react-toastify"
+import SearchBox from './SearchBox'
 function Header() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -30,6 +31,7 @@ function Header() {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto">
+              <SearchBox/>
               <Nav.Link><Link to={"/cart"}><FaShoppingCart />{CartItem?.length > 0 &&
                 <Badge pill bg='success' style={{marginLeft:"5px"}} >
     

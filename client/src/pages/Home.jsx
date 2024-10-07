@@ -4,15 +4,16 @@ import Product from '../components/Product'
 import { useGetProductsQuery } from '../features/ProductApiSlice'
 import Loader from '../components/Loader';
 import Message from '../components/Message';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import Paginate from '../components/Paginate';
 function Home() {
-const {pageNumber} = useParams()
- const {data,isLoading,error} = useGetProductsQuery({pageNumber});
+const {pageNumber,keyword} = useParams()
+ const {data,isLoading,error} = useGetProductsQuery({pageNumber,keyword});
 
     
   return (
     <>
+    {keyword && <Link to={"/"} className='btn btn-dark btn-sm mb-4'>Go Back</Link>}
   {isLoading ? (
     <Loader/>
   ) : error ? (<Message variant={"danger"}>{error?.data?.message || error.error}</Message>): (<>
@@ -27,8 +28,10 @@ const {pageNumber} = useParams()
   </Row>
   <Paginate 
   pages={data?.pages}
-  page={data?.page}/>
-
+  page={data?.page}
+  keyword= {keyword ? keyword : ""}
+  />
+ 
  
   </>
   )}
