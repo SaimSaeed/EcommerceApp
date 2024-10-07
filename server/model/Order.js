@@ -21,9 +21,6 @@ const orderSchema = new mongoose.Schema({
                 ref: "Product"
             },
 
-
-
-
         }
     ],
     shippingAddress: {

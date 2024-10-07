@@ -46,7 +46,7 @@ function Header() {
               <NavDropdown.Item onClick={logoutHandler}>
                 Logout
               </NavDropdown.Item>
-            </NavDropdown>) :  (<Nav.Link href="#home"><FaUser /> Sign In</Nav.Link>)
+            </NavDropdown>) :  (<Nav.Link><Link to={"/login"}><FaUser /> Sign In</Link></Nav.Link>)
               }
 
 {

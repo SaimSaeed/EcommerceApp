@@ -2,8 +2,11 @@ import asyncHandler from "../middleware/asyncHandler.js"
 import Product from "../model/Product.js"
 
 const getProducts = asyncHandler(async (req, res) => {
-  const products = await Product.find()
-  return res.json(products)
+  const pageSize = 2
+  const page = Number(req.query.pageNumber) || 1
+  const count = await Product.countDocuments({})
+  const products = await Product.find().limit(pageSize).skip(pageSize * (page-1))
+  return res.json({products,page,pages:Math.ceil(count/pageSize)})
 })
 
 
@@ -18,7 +21,6 @@ const getSingleProduct = asyncHandler(async (req, res) => {
     throw new Error("Resource Not Found!")
   }
 })
-
 
 const createProduct = asyncHandler(async (req, res) => {
   const product = new Product({
