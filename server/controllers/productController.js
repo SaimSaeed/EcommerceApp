@@ -23,6 +23,19 @@ const getSingleProduct = asyncHandler(async (req, res) => {
   }
 })
 
+
+// Get Top Products
+const getTopProducts = asyncHandler(async (req,res)=>{
+  const topProducts = await Product.find({}).sort({rating:-1}).limit(3)
+  if(topProducts){
+    res.status(200).json(topProducts)
+  }else{
+    res.status(500)
+    throw new Error("Resource Not Found!")
+  }
+
+})
+
 const createProduct = asyncHandler(async (req, res) => {
   const product = new Product({
     name: "Sample Name",
@@ -109,4 +122,6 @@ const createProductReview = asyncHandler(async (req, res) => {
 
 
 
-export { getProducts, getSingleProduct, createProduct, updateProduct, deleteProduct ,createProductReview}
+
+
+export { getProducts, getSingleProduct, createProduct, updateProduct, deleteProduct ,createProductReview,getTopProducts}
