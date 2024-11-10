@@ -16,7 +16,7 @@ function ProductEdit() {
   const [imageSrc, setImageSrc] = useState("")
   const [price, setPrice] = useState(0)
   const [countInStock, setCountInStock] = useState(0)
-  const { data: product, isLoading, error, refetch } = useGetProductDetailsQuery(id)
+  const { data: product, isLoading, error } = useGetProductDetailsQuery(id)
   const [updateProduct, { isLoading: loadingUpdate }] = useUpdateProductMutation()
   const [uploadImage, { isLoading: loadingUpload }] = useUploadProductImageMutation()
   const navigate = useNavigate()
@@ -106,6 +106,7 @@ function ProductEdit() {
 
               </Form.Control>
             </Form.Group>
+            {loadingUpload && <Loader/>}
             <Form.Group>
               <Form.Label>
                 Name

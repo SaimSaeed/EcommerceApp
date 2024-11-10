@@ -9,6 +9,7 @@ import Message from '../components/Message'
 import { addToCart } from '../features/CartSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
+import Meta from '../components/Meta'
 function SingleProduct() {
     const [qty, setQty] = useState(1)
     const { id } = useParams()
@@ -47,6 +48,7 @@ function SingleProduct() {
             <Link to={"/"} className='btn btn-light my-3'>Go Back</Link>
             {isLoading ? (<Loader />) : error ? (<Message variant={"danger"}>{error?.data?.message || error.error}</Message>) : (
                 <>
+                <Meta title={product.name}/>
                     <Row>
                         <Col md={5}>
                             <Image src={product.imageSrc} alt={product.name} fluid />

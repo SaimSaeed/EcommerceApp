@@ -7,6 +7,7 @@ import Message from '../components/Message';
 import { Link, useParams } from 'react-router-dom';
 import Paginate from '../components/Paginate';
 import ProductCarousel from '../components/ProductCarousel';
+import Meta from '../components/Meta';
 function Home() {
 const {pageNumber,keyword} = useParams()
  const {data,isLoading,error} = useGetProductsQuery({pageNumber,keyword});
@@ -17,6 +18,7 @@ const {pageNumber,keyword} = useParams()
   {isLoading ? (
     <Loader/>
   ) : error ? (<Message variant={"danger"}>{error?.data?.message || error.error}</Message>): (<>
+  <Meta/>
   <h1 className='text-center'>Latest Products</h1>
   <Row>
   {data?.products?.map(item=>{
