@@ -13,6 +13,7 @@ dotenv.config()
 
 
 const app = express()
+
 app.use(express.json());
 app.use(express.urlencoded({extended:true}))
 app.use(cookieParser())
@@ -21,6 +22,13 @@ const corsOptions = {
     credentials: true,  // Allow credentials like cookies
     optionsSuccessStatus: 200,
 };
+mongoose.connect(process.env.MONGO_URL)
+.then(()=>{
+    console.log("Database is Connected!")
+})
+.catch((err)=>{
+    console.log(err)
+})
 app.use(cors(corsOptions));
 app.use("/api/products",productRoutes)
 app.use("/api/user",authRoutes)
@@ -35,13 +43,22 @@ app.use(notFound)
 app.use(errorHandler)
 
 
-mongoose.connect(process.env.MONGO_URL)
-.then(()=>{
-    console.log("Database is Connected!")
-})
-.catch((err)=>{
-    console.log(err)
-})
+// if(process.env.NODE_ENV=== "production"){
+// //    set static folder
+// // app.use(express.static(path.join(__dirname,"/client/build")))
+// app.use(express.static(path.join(__dirname, "..", "client", "build")));
+
+// // any route that is not api will be redirected to index.html
+// app.get("*",(req,res)=>{
+// //  res.sendFile(path.resolve(__dirname,"client","build","index.html"))
+// res.sendFile(path.resolve(__dirname, "..", "client", "build", "index.html"));
+
+// })
+// }else{
+//     app.get("/",(req,res)=>{
+//         res.send("Api is running...")
+//     })
+// }
 
 
 const port = process.env.PORT || 8000
