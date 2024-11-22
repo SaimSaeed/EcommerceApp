@@ -39,28 +39,28 @@ app.use("/api/config/paypal",(req,res)=>{
 })
 const __dirname = path.resolve()  //setting directory to current directory
 app.use("/upload",express.static(path.join(__dirname,"/upload")))
+
+
+
+if(process.env.NODE_ENV=== "production"){
+//    set static folder
+// app.use(express.static(path.join(__dirname,"/client/build")))
+app.use(express.static(path.join(__dirname, "..", "client", "build")));
+
+// any route that is not api will be redirected to index.html
+app.get("*",(req,res)=>{
+//  res.sendFile(path.resolve(__dirname,"client","build","index.html"))
+res.sendFile(path.resolve(__dirname, "..", "client", "build", "index.html"));
+
+})
+}else{
+    app.get("/",(req,res)=>{
+        res.send("Api is running...")
+    })
+}
+
 app.use(notFound)
 app.use(errorHandler)
-
-
-// if(process.env.NODE_ENV=== "production"){
-// //    set static folder
-// // app.use(express.static(path.join(__dirname,"/client/build")))
-// app.use(express.static(path.join(__dirname, "..", "client", "build")));
-
-// // any route that is not api will be redirected to index.html
-// app.get("*",(req,res)=>{
-// //  res.sendFile(path.resolve(__dirname,"client","build","index.html"))
-// res.sendFile(path.resolve(__dirname, "..", "client", "build", "index.html"));
-
-// })
-// }else{
-//     app.get("/",(req,res)=>{
-//         res.send("Api is running...")
-//     })
-// }
-
-
 const port = process.env.PORT || 8000
 
 
