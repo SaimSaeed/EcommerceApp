@@ -31,6 +31,10 @@ mongoose.connect(process.env.MONGO_URL)
     console.log(err)
 })
 app.use(cors(corsOptions));
+    app.get("/",(req,res)=>{
+        res.send("Api is running...")
+    })
+
 app.use("/api/products",productRoutes)
 app.use("/api/user",authRoutes)
 app.use("/api/order",orderRoutes)
