@@ -65,11 +65,11 @@ res.sendFile(path.resolve(__dirname, "..", "client", "build", "index.html"));
 
 app.use(notFound)
 app.use(errorHandler)
-// const port = process.env.PORT || 8000
+const port = process.env.PORT || 8000
 
 
-// app.listen(port,()=>{
-//     console.log("Server is Running!",port)
-// })
+app.listen(port,()=>{
+    console.log("Server is Running!",port)
+})
 
-export const handler = ServerlessHttp(app);
+// export const handler = ServerlessHttp(app);
